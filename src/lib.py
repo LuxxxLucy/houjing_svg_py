@@ -49,9 +49,12 @@ if __name__ == "__main__":
 
     builder = build(txt_spec)
 
-    from backend import smt
-    smt_solver = smt.SMT_solver(builder)
-    result = smt_solver.solve()
+    from backend.smt import SMT_solver as Solver
+    solver = Solver(builder)
+    result = solver.solve()
+
+    print(result)
+
 
     # todo: add the routine to expor the result and render into SVG
     # save_svg(result) # parse and render as save as svg

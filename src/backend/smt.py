@@ -63,10 +63,17 @@ class SMT_solver:
     def __init__(self, builder):
         variables, constraints_sexpr = builder.variables, builder.constraints
 
+        # the variable manager controls the parameters and its values.
         self.variable_mgr = {v.id: Symbol(v.id, REAL) for v in variables}
+        # store the constraint expression as it is, will be used to construct it.
+        # while in the soft loss approach we construct a computation graph, here 
+        # we simply construct a constraint-graph, a AND node along with a set of 
+        # clauses (constraints)
         self.constraints_sexpr = constraints_sexpr
 
     def solve(self):
+        # based on the value of parameters from the variable manager
+        # construct all constraints.
         constraints = [
             sexpr2smt_formula(c, self.variable_mgr) for c in self.constraints_sexpr
         ]
