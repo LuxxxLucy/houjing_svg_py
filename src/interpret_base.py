@@ -61,11 +61,12 @@ class Context:
 
     @property
     def current_scope(self):
-        return self._scope
+        return [ s for s in self._scope if s != '.']
+        # return self._scope
 
     @property
     def current_scope_as_str(self):
-        return "/".join(self._scope)
+        return "/".join(self.current_scope)
 
     def push_scope(self, name):
         self._scope.append(name)
@@ -85,7 +86,8 @@ class Context:
             # todo: need to handle relative path
             return
         else:
-            return "/".join(self._scope + [id])
+            print(self.current_scope, id)
+            return "/".join(self.current_scope + [id])
 
 
 def register_variable(ctx, _id, _type):
@@ -126,6 +128,7 @@ def get_all_properties(knowledge, type):
 
 
 def get_all_prior_constraints(knowledge, type):
+    print("getting all cons for ", type)
     # find all constraints that needs to be registered
     all_constraints = []
     if "inherit" in knowledge[type]:
@@ -136,6 +139,7 @@ def get_all_prior_constraints(knowledge, type):
             all_constraints += inherited_parent_constraints
     if "constraints" in knowledge[type]:
         all_constraints += knowledge[type]["constraints"]
+    print("they are", all_constraints)
     return [parse_sexpr(c) for c in all_constraints]
 
 
@@ -172,6 +176,10 @@ def _handle_define(ctx, sexpr):
     register_variable(ctx, _id, _type)
     if _type in _knowledge:
         ctx.push_scope(_id)
+
+        all_constraints = get_all_prior_constraints(_knowledge, _type)
+        for constraint in all_constraints:
+            interpret_sexpr(ctx, constraint)
 
         all_fields = get_all_fields(_knowledge, _type)
         for field in all_fields:

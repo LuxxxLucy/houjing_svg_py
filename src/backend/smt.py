@@ -22,7 +22,7 @@ binary_ops = {
     ">=": lambda x, y: GT(x, y),
     "+": lambda x, y: x + y,
     "/": lambda x, y: x / y,
-    "*": lambda x, y: x / y,
+    "*": lambda x, y: x * y,
 }
 
 def sexpr2smt_formula(sexpr, variable_mgr):
@@ -88,6 +88,8 @@ class SMT_solver:
             assert realized_value is not None
             logging.info(
                 "variable {} under id {} should be {} ".format(
-                    var, v_id, realized_value
+                    var, v_id, float(realized_value)
                 )
             )
+        
+        return result

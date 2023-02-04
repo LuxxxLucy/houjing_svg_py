@@ -46,10 +46,10 @@ _geometry_knowledge = {
         },
         "properties": {
             "center_x": """
-                        (/ (+ x width) 2)
+                        (+ (/ width 2) x)
                         """,
             "center_y": """
-                        (/ (+ y height) 2)
+                        (+ (/ height 2) y)
                         """,
         },
         "constraints": [],
@@ -57,10 +57,15 @@ _geometry_knowledge = {
     "Canvas": {
         "inherit": ["Rect"],
         "fields": {},
-        "constraints": [("=", "x", "0"), ("=", "y", "0")],
+        "constraints": [
+            "(= x 0)", 
+            "(= y 0)", 
+        ]
     },
 }
 
 _knowledge = {}
 _knowledge.update(_arithmetic_knowledge)
 _knowledge.update(_geometry_knowledge)
+
+_supported_geometry_objects = list(_geometry_knowledge.keys())
