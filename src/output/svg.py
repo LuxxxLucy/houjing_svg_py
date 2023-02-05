@@ -7,12 +7,6 @@ as well as a str_rep for its SVG string
 import svgwrite
 from svgwrite.shapes import *
 
-_svg_knowledge = {
-    "Circle": {
-        "attributes": {"x": None, "y": None, "radius": None, "style":"fill:none; stroke: black; stroke-width: 3"},
-    },
-}
-
 def save_svg(builder, ret, path="test.svg"):
     """
     explicit params
@@ -58,11 +52,5 @@ def save_svg(builder, ret, path="test.svg"):
             dwg.add(Rect(insert=(x,y), size=(w,h), stroke=svgwrite.rgb(10, 10, 16, '%'), fill='none'))
 
     dwg.save()
-    # and if true, translate to a json object?
-    # first get the canvas root node.
-    # then for each object, convert to SVG, and query the value
-
-    # svg_str = obj2svg(obj)
-    # save svg_str into a local file.
     return
 

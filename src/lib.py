@@ -4,7 +4,6 @@ from pprint import pprint as pr
 
 from parse import parse_sexpr
 
-
 def set_env():
     level = getattr(logging, "INFO", None)
     if not isinstance(level, int):
@@ -31,12 +30,14 @@ if __name__ == "__main__":
             (define b Rect)
             (= (get a center_x) (get b center_x))
             (= (get a center_y) (get b center_y))
+            (= (get a center_x) (get . center_x))
+            (= (get a center_y) (get . center_y))
             (= (get a radius) (/ (get . width) 4))
             (= (get b width) (get b height))
             (= (get b width) (*  (get a radius) (sqrt 2))))
     )
     """
-
+  
     def build(spec):
         sexpr = parse_sexpr(spec)
         indented_sexpr = pprint.pformat(sexpr, indent=2)
@@ -53,9 +54,5 @@ if __name__ == "__main__":
     solver = Solver(builder)
     result = solver.solve()
 
-    print(result)
-
-
-    # todo: add the routine to expor the result and render into SVG
-    # save_svg(result) # parse and render as save as svg
-    # save_png(result) # parse and render as save as png
+    from output.svg import save_svg
+    save_svg(builder, result)
