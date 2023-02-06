@@ -25,6 +25,7 @@ binary_ops = {
     "*": lambda x, y: x * y,
 }
 
+
 def sexpr2smt_formula(sexpr, variable_mgr):
     def get_value(sexpr, variable_mgr):
         _id = sexpr
@@ -59,6 +60,7 @@ def sexpr2smt_formula(sexpr, variable_mgr):
         assert 0  # should not reach here. Need to check if the specified operator is supported
     return
 
+
 class SMT_solver:
     def __init__(self, builder):
         variables, constraints_sexpr = builder.variables, builder.constraints
@@ -66,8 +68,8 @@ class SMT_solver:
         # the variable manager controls the parameters and its values.
         self.variable_mgr = {v.id: Symbol(v.id, REAL) for v in variables}
         # store the constraint expression as it is, will be used to construct it.
-        # while in the soft loss approach we construct a computation graph, here 
-        # we simply construct a constraint-graph, a AND node along with a set of 
+        # while in the soft loss approach we construct a computation graph, here
+        # we simply construct a constraint-graph, a AND node along with a set of
         # clauses (constraints)
         self.constraints_sexpr = constraints_sexpr
 
@@ -91,5 +93,5 @@ class SMT_solver:
                     var, v_id, float(realized_value)
                 )
             )
-        
+
         return result

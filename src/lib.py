@@ -4,6 +4,7 @@ from pprint import pprint as pr
 
 from parse import parse_sexpr
 
+
 def set_env():
     level = getattr(logging, "INFO", None)
     if not isinstance(level, int):
@@ -37,7 +38,7 @@ if __name__ == "__main__":
             (= (get b width) (*  (get a radius) (sqrt 2))))
     )
     """
-  
+
     def build(spec):
         sexpr = parse_sexpr(spec)
         indented_sexpr = pprint.pformat(sexpr, indent=2)
@@ -51,8 +52,10 @@ if __name__ == "__main__":
     builder = build(txt_spec)
 
     from backend.smt import SMT_solver as Solver
+
     solver = Solver(builder)
     result = solver.solve()
 
     from output.svg import save_svg
+
     save_svg(builder, result)

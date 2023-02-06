@@ -61,7 +61,7 @@ class Context:
 
     @property
     def current_scope(self):
-        return [ s for s in self._scope if s != '.']
+        return [s for s in self._scope if s != "."]
         # return self._scope
 
     @property
