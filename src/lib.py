@@ -51,7 +51,8 @@ if __name__ == "__main__":
 
     builder = build(txt_spec)
 
-    from backend.smt import SMT_solver as Solver
+    # from backend.smt import SMT_solver as Solver
+    from backend.optim import Optim_solver as Solver
 
     solver = Solver(builder)
     result = solver.solve()
